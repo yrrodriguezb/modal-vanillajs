@@ -9,7 +9,7 @@ Modal Reutilizable con HTML, CSS y JavaScript
 
 | Propiedad   | Tipo         | Descripción                   | Valor por defecto |
 |-------------|--------------|-------------------------------|-------------------|
-| title       | String       | Titulo en el header del modal | vacio             |
+| title       | String       | TÍtulo en el header del modal | vacio             |
 | template    | String       | Contenido del modal           | vacio             |
 | close       | Function     | Manejador de cerrar           | close()           |
 | save        | Function     | Manejador de gaurdar          | save()            |
@@ -32,8 +32,8 @@ Modal Reutilizable con HTML, CSS y JavaScript
 |-------------|--------------|--------------------------------------------|
 | close       | void         | Cierra el modal                            |
 | open        | void         | Abre el modal                              |
-| find        | NodeList     | Busca un elemnto en el modal               |
-| save        | void         | Manejador del boton guardar                |
+| find        | NodeList     | Busca un elemento en el modal              |
+| save        | void         | Manejador del botón guardar                |
 | setProperty | void         | Asigna el valor a una propiedad del modal  |
 
 ### Forma de uso
@@ -81,19 +81,22 @@ modal.close();
         title: "Modal",
         template: "",
         close: function () {
-            ....
+            ...
         },
         save: function () {
-            ....
+            ...
         },
     });
 
     modal.setProperty("template", table.outerHTML);
+    
     modal.open();
 
     modal.find("#tblData").forEach(function (el) {
         el.style.width = "100%";
     });
+
+    modal.content.innerHTML += "<br>Hecho con VanillaJS";
 
 })();
 ```
