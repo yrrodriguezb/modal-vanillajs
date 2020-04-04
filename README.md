@@ -53,5 +53,5 @@ modal.close();
 
 ### Live Demo
 
-Ir al sitio de publicación. __[Demo](https://yrrodriguezb.github.io/modal-vanilla-js/)__
+Ir al sitio de publicación. __[Demo](https://yrrodriguezb.github.io/modal-vanillajs/src/modal.html)__
 
