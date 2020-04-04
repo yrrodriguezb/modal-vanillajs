@@ -9,8 +9,10 @@ Modal Reutilizable con HTML, CSS y JavaScript
 
 | Propiedad   | Tipo         | Descripción                   | Valor por defecto |
 |-------------|--------------|-------------------------------|-------------------|
-| title       | string       | Titulo en el header del modal | vacio             |
-| template    | string       | Contenido del modal           | vacio             |
+| title       | String       | Titulo en el header del modal | vacio             |
+| template    | String       | Contenido del modal           | vacio             |
+| close       | Function     | Manejador de cerrar           | close()           |
+| save        | Function     | Manejador de gaurdar          | save()            |
 
 
 #### Propieades de instancia
@@ -49,6 +51,51 @@ modal.find("div").forEach(el => {
 });
 
 modal.close();
+```
+
+``` javascript 
+(function(){
+
+    var table = document.createElement("table");
+    table.id = "tblData";
+    table.className = "mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp";
+
+    var tbody = document.createElement("tbody");
+    var tr, td;
+
+    for (let i = 0; i < 5; i++) {
+        tr = document.createElement("tr");
+
+        for (let j = 0; j < 5; j++) {
+            td = document.createElement("td");
+            td.innerText = "Posición [" + i + "][" +  j +"]";
+            tr.appendChild(td); 
+        }
+        
+        tbody.appendChild(tr);
+    }
+
+    table.appendChild(tbody);
+
+    var modal = new Modal({
+        title: "Modal",
+        template: "",
+        close: function () {
+            ....
+        },
+        save: function () {
+            ....
+        },
+    });
+
+    modal.setProperty("template", table.outerHTML);
+    modal.open();
+
+    modal.find("#tblData").forEach(function (el) {
+        el.style.width = "100%";
+    });
+
+})();
 ```
 
 ### Live Demo
