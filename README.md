@@ -7,41 +7,49 @@ Modal Reutilizable con HTML, CSS y JavaScript
 
 #### Propieades de configuración
 
-| Propiedad   | Tipo         | Descripción                   | Valor por defecto |
-|-------------|--------------|-------------------------------|-------------------|
-| title       | String       | TÍtulo en el header del modal | vacio             |
-| template    | String       | Contenido del modal           | vacio             |
-| close       | Function     | Manejador de cerrar           | close()           |
-| save        | Function     | Manejador de gaurdar          | save()            |
+| Propiedad      | Tipo     | Descripción                   | Valor por defecto |
+|----------------|----------|-------------------------------|-------------------|
+| onclose        | Function | Manejador de cerrar           | close()           |
+| onopen         | Function | Manejador de abrir modal      | open()            |
+| onsave         | Function | Manejador de guardar          | save()            |
+| template       | String   | TÍtulo en el header del modal | vacio             |
+| title          | String   | Contenido del modal           | vacio             |
+
+***Nota: Si se agrega la configuración de los eventos onclose, onopen, onsave, unicamente agrega funcionalidad al llamar los eventos correspondientes. Por defecto cierran el Modal. ***
 
 
 #### Propieades de instancia
 
-| Propiedad   | Tipo         | Descripción                   | Valor por defecto |
-|-------------|--------------|-------------------------------|-------------------|
-| modal       | HTMLElement  | Elemento HTML                 |                   |
-| container   | HTMLElement  | Elemento HTML                 |                   |
-| content     | HTMLElement  | Elemento HTML                 |                   |
-| btnCancel   | HTMLElement  | Elemento HTML                 |                   |
-| btnClose    | HTMLElement  | Elemento HTML                 |                   |
-| btnSave     | HTMLElement  | Elemento HTML                 |                   |
+| Propiedad   | Tipo             | Descripción                                     | Valor por defecto |
+|-------------|------------------|-------------------------------------------------|-------------------|
+| modal       | HTMLElement      | Elemento HTML                                   |                   |
+| container   | HTMLElement      | Elemento HTML                                   |                   |
+| content     | HTMLElement      | Elemento HTML                                   |                   |
+| btnCancel   | HTMLElement      | Elemento HTML                                   |                   |
+| btnClose    | HTMLElement      | Elemento HTML                                   |                   |
+| btnSave     | HTMLElement      | Elemento HTML                                   |                   |
+| opened      | Boolean Property | Propiedad que verifica si el modal esta abierto | false             |
+| closed      | Boolean Property | Propiedad que verifica si el modal esta cerrado | true              |
 
 ### Métodos
 
-| Nombre      | Retorno      | Descripción                                | 
-|-------------|--------------|--------------------------------------------|
-| close       | void         | Cierra el modal                            |
-| open        | void         | Abre el modal                              |
-| find        | NodeList     | Busca un elemento en el modal              |
-| save        | void         | Manejador del botón guardar                |
-| setProperty | void         | Asigna el valor a una propiedad del modal  |
+| Nombre      | Retorno  | Descripción                                | 
+|-------------|----------|--------------------------------------------|
+| close       | void     | Cierra el modal                            |
+| open        | void     | Abre el modal                              |
+| find        | NodeList | Busca un elemento en el modal              |
+| save        | void     | Manejador del botón guardar                |
+| setProperty | void     | Asigna el valor a una propiedad del modal  |
 
 ### Forma de uso
 
 ``` javascript 
 var modal = new Modal({
     title: "Modal Reutilizable",
-    template: "<p>Contenido del modal<p>"
+    template: "<p>Contenido del modal<p>",
+    onclose: (e) => console.log("close ..."),
+    onopen: (e) => console.log("open ..."),
+    onsave: (e) => console.log("save ...")
 });
 
 modal.open();

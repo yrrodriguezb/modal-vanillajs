@@ -1,25 +1,67 @@
 var Modal = (function () {
 
     var self = null;
+    var state = false;
 
     function Modal(options) {
+        this.closed = true;
+        this.opened = false;
         self = this;
         this.init(options);
     }
 
-    var __close = function() {  
-        self.modal.style.display = "none";
-        self.container.style.display = "none";
+    var __close = function (event) {  
+        if (__isFunction(self.config.onclose))
+            self.config.onclose(event);
+
+        self.closed = state = false;   
+        __toogleStateModal(); 
     }
 
-    var __open = function() {  
-        self.modal.style.display = "block";
-        self.container.style.display = "block";
+    var __open = function (event) {
+        if (__isFunction(self.config.onopen))
+            self.config.onopen(event);
+
+        self.opened = state = true;  
+        __toogleStateModal();
+    }
+
+    var __save = function (event) {
+        if (__isFunction(self.config.onsave))
+            self.config.onsave(event);
+
+        self.closed = state = false;   
+        __toogleStateModal();
+    }
+
+    var __toogleStateModal = function () {
+        self.container.style.display = self.modal.style.display = state ? "block" : "none";
+        self.closed = !state;
+        self.opened = state
     }
 
     var __setProperty = function (prop, value) {
-        this.config[prop] = value;
-        this.render();
+        if (this.config[prop]){
+            this.config[prop] = value;
+            this.render();
+        }
+    }
+
+    var __getElements = function () {
+        self.modal = self.get("modal");
+        self.container = self.get("modal-container")
+        self.title = self.get("modal-header-title");
+        self.content = self.get("modal-content");
+        self.btnClose = self.get("btn-modal-close");
+        self.btnCancel = self.get("btn-modal-cancel");
+        self.btnSave = self.get("btn-modal-save");
+    }
+
+    var __refsEvents = function () {
+        self.btnCancel.onclick = __close;
+        self.btnClose.onclick = __close;
+        self.btnSave.onclick = __save;
+        self.modal.onclick = __close; 
     }
 
     var __find = function (selector) {
@@ -46,42 +88,29 @@ var Modal = (function () {
         return document.querySelectorAll(".modal-container " + selector);
     }
 
+    var __isFunction = function (fn) {
+        return fn && {}.toString.call(fn) === '[object Function]';
+    }
+
     Modal.prototype.init = function (options) {
-        this.config = options || {};
+        this.config = options || {}; 
         this.get = document.getElementById.bind(document);
-        this.getElements();
+        __getElements();
         this.render();
     };
-
-    Modal.prototype.getElements = function () {
-        this.modal = this.get("modal");
-        this.container = this.get("modal-container")
-        this.title = this.get("modal-header-title");
-        this.content = this.get("modal-content");
-        this.btnClose = this.get("btn-modal-close");
-        this.btnCancel = this.get("btn-modal-cancel");
-        this.btnSave = this.get("btn-modal-save");
-    }
-
-    Modal.prototype.refsEvents = function () {
-        this.btnCancel.onclick = this.config.onclose || this.close;
-        this.btnClose.onclick = this.config.onclose || this.close
-        this.btnSave.onclick = this.config.onsave || this.save;
-        this.modal.onclick = __close; 
-    }
 
     Modal.prototype.render = function () {
         this.title.innerHTML = this.config.title || "";
         this.content.innerHTML = this.config.template || "";
 
-        this.refsEvents();
+        __refsEvents();
     };
 
     Modal.prototype.open = __open;
 
     Modal.prototype.close = __close;
 
-    Modal.prototype.save = __close;
+    Modal.prototype.save = __save;
 
     Modal.prototype.setProperty = __setProperty;
 
